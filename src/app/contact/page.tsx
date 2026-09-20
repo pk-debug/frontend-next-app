@@ -22,6 +22,7 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { submitContactRequest } from "@/features/contact/contact-client";
 
 const initialForm = {
   name: "",
@@ -63,26 +64,7 @@ export default function ContactPage() {
     setStatus({ type: "idle", message: "" });
 
     try {
-      const response = await fetch(`/api/contact?backend=${selectedBackend}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const payload = (await response.json()) as {
-        ok?: boolean;
-        message?: string;
-      };
-
-      if (!response.ok || !payload.ok) {
-        setStatus({
-          type: "error",
-          message: payload.message ?? "Something went wrong while sending your message.",
-        });
-        return;
-      }
+      const payload = await submitContactRequest(formData, selectedBackend);
 
       setStatus({
         type: "success",

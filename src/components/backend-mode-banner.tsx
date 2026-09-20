@@ -21,9 +21,10 @@
 import { useEffect, useState } from "react";
 import {
   CONTACT_BACKEND_MODES,
-  contactBackendOptions,
   type ContactBackendMode,
-} from "@/lib/contact-backend";
+} from "@/server/contact-storage";
+
+const contactBackendOptions = Object.values(CONTACT_BACKEND_MODES);
 
 const STORAGE_KEY = "northstar-backend-mode";
 

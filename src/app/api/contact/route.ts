@@ -18,9 +18,9 @@
 import { NextResponse } from "next/server";
 import {
   CONTACT_BACKEND_MODES,
-  persistContactSubmission,
   type ContactBackendMode,
-} from "@/lib/contact-backend";
+} from "@/server/contact-storage";
+import { submitContactForm } from "@/features/contact/contact-service";
 
 export async function GET() {
   return NextResponse.json({
@@ -41,12 +41,13 @@ export async function POST(request: Request) {
 
     const mode: ContactBackendMode =
       requestedBackend === CONTACT_BACKEND_MODES.SUPABASE ||
+      requestedBackend === CONTACT_BACKEND_MODES.FIREBASE ||
       requestedBackend === CONTACT_BACKEND_MODES.EXPRESS ||
       requestedBackend === CONTACT_BACKEND_MODES.NEXT
         ? requestedBackend
         : CONTACT_BACKEND_MODES.NEXT;
 
-    const result = await persistContactSubmission(rawBody, mode);
+    const result = await submitContactForm(rawBody, mode);
 
     if (!result.ok) {
       return NextResponse.json(
@@ -63,7 +64,7 @@ export async function POST(request: Request) {
       ok: true,
       backend: result.backend,
       message: result.message,
-      count: result.count,
+      ...(typeof result.count === "number" ? { count: result.count } : {}),
     });
   } catch (error) {
     const message =
