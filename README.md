@@ -288,7 +288,15 @@ This is the most popular no-code-to-low-code database option.
 - the app inserts the form payload into the database
 - great for fast product builds and auth-heavy apps
 
-### 3. Express server
+### 3. Firebase
+This is a cloud backend option from Google.
+
+- use Firebase Firestore as your data layer
+- keep frontend and database connected through the Firebase SDK
+- great for fast app development and real-time data use cases
+- useful when you want a managed backend without building your own server
+
+### 4. Express server
 This is the traditional backend approach.
 
 - run a separate Node server on port 4000

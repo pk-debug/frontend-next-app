@@ -21,6 +21,7 @@
 export const CONTACT_BACKEND_MODES = {
   NEXT: "next",
   SUPABASE: "supabase",
+  FIREBASE: "firebase",
   EXPRESS: "express",
 } as const;
 
@@ -116,6 +117,51 @@ export async function persistContactSubmission(
         backend: CONTACT_BACKEND_MODES.SUPABASE,
         message: "Message saved to Supabase successfully.",
       };
+    }
+
+    case CONTACT_BACKEND_MODES.FIREBASE: {
+      const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+      const collection = process.env.NEXT_PUBLIC_FIREBASE_COLLECTION ?? "contact_messages";
+
+      if (!projectId) {
+        return {
+          ok: false,
+          backend: CONTACT_BACKEND_MODES.FIREBASE,
+          message:
+            "Firebase is selected, but NEXT_PUBLIC_FIREBASE_PROJECT_ID is not configured.",
+        };
+      }
+
+      try {
+        const { initializeApp } = await import("firebase/app");
+        const firebaseFirestore = await import("firebase/firestore");
+        const { getFirestore, addDoc, collection: firestoreCollection } = firebaseFirestore;
+
+        const app = initializeApp({
+          projectId,
+        });
+
+        const db = getFirestore(app);
+        await addDoc(firestoreCollection(db, collection), {
+          ...submission,
+          createdAt: new Date().toISOString(),
+        });
+
+        return {
+          ok: true,
+          backend: CONTACT_BACKEND_MODES.FIREBASE,
+          message: "Message saved to Firebase successfully.",
+        };
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Firebase save failed unexpectedly.";
+
+        return {
+          ok: false,
+          backend: CONTACT_BACKEND_MODES.FIREBASE,
+          message,
+        };
+      }
     }
 
     case CONTACT_BACKEND_MODES.EXPRESS: {

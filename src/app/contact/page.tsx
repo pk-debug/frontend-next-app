@@ -33,6 +33,7 @@ const initialForm = {
 const backendOptions = [
   { value: "next", label: "Next.js Route Handler" },
   { value: "supabase", label: "Supabase" },
+  { value: "firebase", label: "Firebase" },
   { value: "express", label: "Express Server" },
 ] as const;
 
