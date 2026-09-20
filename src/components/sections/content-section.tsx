@@ -11,6 +11,7 @@ export function ContentSection({
   items,
   columns = 3,
   centered = false,
+  variant = "default",
 }: {
   eyebrow: string;
   title: string;
@@ -18,6 +19,7 @@ export function ContentSection({
   items: SectionItem[];
   columns?: 2 | 3 | 4;
   centered?: boolean;
+  variant?: "default" | "highlight" | "split";
 }) {
   const gridClassName = {
     2: "md:grid-cols-2",
@@ -25,8 +27,15 @@ export function ContentSection({
     4: "md:grid-cols-4",
   }[columns];
 
+  const wrapperClassName =
+    variant === "highlight"
+      ? "rounded-[2rem] border border-cyan-500/20 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-8 lg:p-12"
+      : variant === "split"
+        ? "rounded-[2rem] border border-slate-800 bg-slate-900/60 p-8"
+        : "";
+
   return (
-    <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+    <section className={`mx-auto max-w-7xl px-6 py-20 lg:px-8 ${wrapperClassName}`}>
       <div className={centered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
         <p className="text-sm font-medium tracking-[0.2em] text-cyan-300 uppercase">
           {eyebrow}
@@ -43,7 +52,11 @@ export function ContentSection({
         {items.map((item) => (
           <article
             key={item.title}
-            className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg shadow-slate-950/30"
+            className={
+              variant === "highlight"
+                ? "rounded-3xl border border-slate-700 bg-slate-950/60 p-6"
+                : "rounded-3xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg shadow-slate-950/30"
+            }
           >
             {item.value ? (
               <div className="mb-4 text-3xl font-black text-white">{item.value}</div>
