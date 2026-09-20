@@ -1,3 +1,21 @@
+/**
+ * Contact page with real backend mode selection.
+ *
+ * For a 15-year-old:
+ * This page is the front door of the app. It lets a visitor fill in their details and
+ * then send that message to one of three backends: the built-in Next.js route, a
+ * Supabase database, or a separate Express server.
+ *
+ * Senior engineer note:
+ * The page acts as the UI boundary for transport selection. It keeps the UX stable while
+ * allowing the app to route the same payload to different backends based on runtime
+ * configuration or developer preference.
+ *
+ * Staff engineer note:
+ * The contact form is intentionally decoupled from persistence implementation. The page
+ * sends an API contract, while the backend layer owns validation, persistence, and
+ * provider-specific behavior. That separation is a common production design pattern.
+ */
 "use client";
 
 import type { FormEvent } from "react";
@@ -12,22 +30,75 @@ const initialForm = {
   message: "",
 };
 
+const backendOptions = [
+  { value: "next", label: "Next.js Route Handler" },
+  { value: "supabase", label: "Supabase" },
+  { value: "express", label: "Express Server" },
+] as const;
+
 export default function ContactPage() {
   const [formData, setFormData] = useState(initialForm);
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [selectedBackend, setSelectedBackend] = useState<(typeof backendOptions)[number]["value"]>("next");
+  const [status, setStatus] = useState<{ type: "idle" | "success" | "error"; message: string }>({
+    type: "idle",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { name, email, message } = formData;
 
     if (!name.trim() || !email.trim() || !message.trim()) {
-      setStatus("error");
+      setStatus({
+        type: "error",
+        message: "Please complete the name, email, and project details before submitting.",
+      });
       return;
     }
 
-    setStatus("success");
-    setFormData(initialForm);
+    setIsSubmitting(true);
+    setStatus({ type: "idle", message: "" });
+
+    try {
+      const response = await fetch(`/api/contact?backend=${selectedBackend}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const payload = (await response.json()) as {
+        ok?: boolean;
+        message?: string;
+      };
+
+      if (!response.ok || !payload.ok) {
+        setStatus({
+          type: "error",
+          message: payload.message ?? "Something went wrong while sending your message.",
+        });
+        return;
+      }
+
+      setStatus({
+        type: "success",
+        message: payload.message ?? "Thanks! Your request has been received and we will reach out soon.",
+      });
+      setFormData(initialForm);
+    } catch (error) {
+      setStatus({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "A network error prevented your message from being sent.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -51,7 +122,25 @@ export default function ContactPage() {
         </Card>
 
         <Card title="Start the conversation" description="Book a short intro call and we’ll map the next step for your product or brand.">
-          <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+          <div className="mt-6 mb-4">
+            <label htmlFor="backend" className="mb-2 block text-sm font-medium text-slate-200">
+              Backend mode
+            </label>
+            <select
+              id="backend"
+              value={selectedBackend}
+              onChange={(event) => setSelectedBackend(event.target.value as (typeof backendOptions)[number]["value"])}
+              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-white outline-none transition focus:border-cyan-400"
+            >
+              {backendOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="mb-1 block text-sm text-slate-200">
                 Name
@@ -106,19 +195,19 @@ export default function ContactPage() {
               />
             </div>
 
-            <Button type="submit" variant="primary">
-              Send inquiry
+            <Button type="submit" variant="primary" disabled={isSubmitting}>
+              {isSubmitting ? "Sending..." : "Send inquiry"}
             </Button>
 
-            {status === "success" ? (
+            {status.type === "success" ? (
               <p aria-live="polite" className="text-sm text-emerald-300">
-                Thanks! Your request has been received and we will reach out soon.
+                {status.message}
               </p>
             ) : null}
 
-            {status === "error" ? (
+            {status.type === "error" ? (
               <p aria-live="polite" className="text-sm text-rose-300">
-                Please complete the name, email, and project details before submitting.
+                {status.message}
               </p>
             ) : null}
           </form>

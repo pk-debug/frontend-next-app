@@ -268,11 +268,42 @@ It is suitable for a portfolio, learning project, or internal product prototype.
 
 ---
 
+## Backend integration options
+
+This project now demonstrates three real backend strategies for the contact form.
+
+### 1. Next.js Route Handler
+This is the easiest built-in option.
+
+- the form posts to /api/contact
+- the route validates and saves the request
+- no extra server setup is required
+- great for quick prototypes and production-friendly apps
+
+### 2. Supabase
+This is the most popular no-code-to-low-code database option.
+
+- create a table called contact_messages
+- set the environment variables in .env.local
+- the app inserts the form payload into the database
+- great for fast product builds and auth-heavy apps
+
+### 3. Express server
+This is the traditional backend approach.
+
+- run a separate Node server on port 4000
+- create a POST /api/contact endpoint
+- the frontend sends requests to that server
+- best for learning how backend APIs work in a classic setup
+
+---
+
 ## Quick commands
 
 ```bash
 npm install
 npm run dev
+npm run dev:express
 npm run build
 npm run start
 ```
