@@ -1,3 +1,10 @@
+/**
+ * Process and CTA storytelling section.
+ *
+ * This component combines two persuasive patterns: showing how the system works and
+ * ending with a conversion-focused prompt. Together they help the visitor understand
+ * the experience and take the intended next step.
+ */
 import { workflowSteps } from "@/data/site";
 
 export function ProcessSection() {

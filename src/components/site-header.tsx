@@ -1,3 +1,10 @@
+/**
+ * Shared site header with responsive navigation.
+ *
+ * The header is used across pages and adapts its layout for desktop and mobile. On
+ * small screens, it swaps the wide nav for a compact menu so the experience stays
+ * accessible without overwhelming the viewport.
+ */
 "use client";
 
 import Link from "next/link";

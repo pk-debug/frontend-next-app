@@ -1,3 +1,12 @@
+/**
+ * Shared content model for the marketing site.
+ *
+ * This file centralizes nearly-static content used across multiple pages. Keeping it
+ * here prevents content duplication and gives the team one place to update product
+ * claims, navigation, or page copy. This is a common pattern in scalable frontend
+ * apps where copy changes often.
+ */
+
 export const metrics = [
   { value: "12k+", label: "Marketing teams launched" },
   { value: "4.8/5", label: "Average customer rating" },

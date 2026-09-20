@@ -1,3 +1,10 @@
+/**
+ * Shared button primitive.
+ *
+ * This component abstracts common button styles and supports both native buttons and
+ * Next.js links. Keeping the interaction model consistent reduces design drift and
+ * promotes a reliable design system across the app.
+ */
 import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 

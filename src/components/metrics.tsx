@@ -1,3 +1,10 @@
+/**
+ * Social-proof metrics strip.
+ *
+ * This section is intentionally simple but powerful: it converts abstract claims into
+ * numbers that visitors can quickly scan. Proof points like these are common in
+ * high-converting marketing pages because they reduce uncertainty.
+ */
 import { metrics } from "@/data/site";
 
 export function MetricsSection() {

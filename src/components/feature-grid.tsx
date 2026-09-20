@@ -1,3 +1,10 @@
+/**
+ * Feature grid section.
+ *
+ * This component turns key product benefits into a scannable card layout. It is a
+ * reusable pattern for explaining the core value proposition without overwhelming the
+ * viewer with long paragraphs.
+ */
 import { featureItems } from "@/data/site";
 
 export function FeatureSection() {

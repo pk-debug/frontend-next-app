@@ -1,3 +1,10 @@
+/**
+ * Reusable content-section component.
+ *
+ * This is a data-driven section shell that can be used for feature lists, content
+ * blocks, or comparison cards. The variant prop lets teams reuse the same pattern
+ * across multiple contexts while keeping the API simple and consistent.
+ */
 type SectionItem = {
   title: string;
   description: string;

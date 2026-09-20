@@ -1,3 +1,10 @@
+/**
+ * Generic card container.
+ *
+ * Cards are used across the site to package information into repeatable visual blocks.
+ * This reusable abstraction keeps layout patterns consistent without hand-writing the
+ * same wrapper styles repeatedly.
+ */
 import type { ReactNode } from "react";
 
 export function Card({

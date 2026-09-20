@@ -1,3 +1,10 @@
+/**
+ * Shared site footer.
+ *
+ * This component keeps the footer consistent across the app and provides easy access
+ * to the main information pages. It is intentionally lightweight so it does not
+ * overcomplicate the app shell.
+ */
 export function SiteFooter() {
   return (
     <footer className="border-t border-slate-800 bg-slate-950/80">

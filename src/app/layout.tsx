@@ -1,3 +1,14 @@
+/**
+ * Root application layout.
+ *
+ * This file defines the shared shell used by all pages in the app. It loads the
+ * app-wide fonts, applies the global stylesheet, and injects the common header and
+ * footer so every route keeps a consistent visual system.
+ *
+ * For senior engineers: the layout is the highest-level composition boundary in the
+ * App Router. It is the right place for common metadata, theme wrappers, and shared
+ * navigation patterns.
+ */
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";

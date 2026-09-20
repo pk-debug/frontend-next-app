@@ -1,3 +1,11 @@
+/**
+ * Hero section for the main marketing page.
+ *
+ * This section communicates the most important business value immediately: who the
+ * company is, what value it creates, and what action the visitor should take next.
+ * It follows classic SaaS marketing patterns: strong headline, proof, CTA, and a
+ * dashboard-style visual.
+ */
 const logos = ["Vercel", "Stripe", "Notion", "GitHub", "Figma", "Linear"];
 
 export function HeroSection() {
