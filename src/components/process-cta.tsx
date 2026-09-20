@@ -1,8 +1,4 @@
-const workflow = [
-  "Map the offer, audience, and primary conversion goal.",
-  "Design the experience around clear messaging and trust signals.",
-  "Deploy with measurable performance insights and iteration loops.",
-];
+import { workflowSteps } from "@/data/site";
 
 export function ProcessSection() {
   return (
@@ -19,7 +15,7 @@ export function ProcessSection() {
           </div>
 
           <div className="space-y-5">
-            {workflow.map((step, index) => (
+            {workflowSteps.map((step, index) => (
               <div key={step} className="flex gap-4 rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-400/15 font-semibold text-cyan-300">
                   {index + 1}

@@ -1,9 +1,4 @@
-const metrics = [
-  { value: "12k+", label: "Marketing teams launched" },
-  { value: "4.8/5", label: "Average customer rating" },
-  { value: "3x", label: "Faster campaign launches" },
-  { value: "99.9%", label: "Platform uptime" },
-];
+import { metrics } from "@/data/site";
 
 export function MetricsSection() {
   return (

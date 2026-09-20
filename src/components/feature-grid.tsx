@@ -1,20 +1,4 @@
-const features = [
-  {
-    title: "Launch product stories faster",
-    description:
-      "Turn strategy into launch-ready experiences with modular landing pages built to convert visitors and communicate value quickly.",
-  },
-  {
-    title: "Bring data and design together",
-    description:
-      "Connect product, campaign, and conversion insights in one system so marketing and product teams move in sync.",
-  },
-  {
-    title: "Scale without friction",
-    description:
-      "Ship content updates, test ideas, and expand pages globally with a flexible architecture that grows alongside your business.",
-  },
-];
+import { featureItems } from "@/data/site";
 
 export function FeatureSection() {
   return (
@@ -29,7 +13,7 @@ export function FeatureSection() {
       </div>
 
       <div className="mt-12 grid gap-6 md:grid-cols-3">
-        {features.map((feature, index) => (
+        {featureItems.map((feature, index) => (
           <article
             key={feature.title}
             className="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg shadow-slate-950/30"
