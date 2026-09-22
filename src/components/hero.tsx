@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Hero section for the main marketing page.
  *
@@ -6,45 +8,63 @@
  * It follows classic SaaS marketing patterns: strong headline, proof, CTA, and a
  * dashboard-style visual.
  */
-const logos = ["Vercel", "Stripe", "Notion", "GitHub", "Figma", "Linear"];
+import { useEffect, useState } from "react";
+import { fetchSiteContentSection } from "@/features/site-content/site-content-client";
+import { SITE_CONTENT_BACKEND_MODES } from "@/features/site-content/site-content-backend-modes";
 
 export function HeroSection() {
+  const [home, setHome] = useState({
+    eyebrow: "Built for modern growth teams",
+    headline: "Turn attention into momentum.",
+    description:
+      "Northstar helps ambitious teams design, launch, and optimize digital experiences that convert visitors into customers faster.",
+    primaryCta: { label: "Start free trial", href: "#pricing" },
+    secondaryCta: { label: "See platform", href: "#solutions" },
+    trustLabel: "Trusted by teams at",
+    logos: ["Vercel", "Stripe", "Notion", "GitHub", "Figma", "Linear"],
+  });
+
+  useEffect(() => {
+    fetchSiteContentSection("home", SITE_CONTENT_BACKEND_MODES.NEXT)
+      .then((data) => setHome(data))
+      .catch(() => undefined);
+  }, []);
+
   return (
     <section className="mx-auto max-w-7xl px-6 pb-20 pt-10 lg:px-8 lg:pt-16">
       <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
           <span className="inline-flex items-center rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-medium tracking-[0.2em] text-cyan-200 uppercase">
-            Built for modern growth teams
+            {home.eyebrow}
           </span>
 
           <h1 className="mt-6 max-w-xl text-5xl font-black tracking-tight text-white sm:text-6xl">
-            Turn attention into momentum.
+            {home.headline}
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">
-            Northstar helps ambitious teams design, launch, and optimize digital
-            experiences that convert visitors into customers faster.
+            {home.description}
           </p>
 
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <a
-              href="#pricing"
+              href={home.primaryCta.href}
               className="inline-flex items-center justify-center rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
             >
-              Start free trial
+              {home.primaryCta.label}
             </a>
             <a
-              href="#solutions"
+              href={home.secondaryCta.href}
               className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-900/70 px-6 py-3 text-sm font-semibold text-white transition hover:border-slate-500"
             >
-              See platform
+              {home.secondaryCta.label}
             </a>
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-8 text-sm text-slate-300">
-            <span>Trusted by teams at</span>
+            <span>{home.trustLabel}</span>
             <div className="flex flex-wrap gap-4">
-              {logos.map((logo) => (
+              {home.logos.map((logo) => (
                 <span key={logo} className="text-slate-400">
                   {logo}
                 </span>
